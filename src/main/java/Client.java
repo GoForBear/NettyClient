@@ -1,4 +1,5 @@
 import login.userLogin;
+import util.socketUtil;
 
 import java.util.Scanner;
 
@@ -23,13 +24,21 @@ public class Client {
                     String userName = loginSc.nextLine();
                     System.out.println("请输入你的密码");
                     String passWord = loginSc.nextLine();
-                    userLogin.login(userName,passWord);
+                    try{
+                        userLogin.login(userName,passWord);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 }
             }
         }
     }
 
     public static void main(String[] args) {
+        Client client = new Client();
+        socketUtil.initSocket();
+        client.run();
 
     }
 }
