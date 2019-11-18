@@ -3,17 +3,29 @@ package login;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelPipeline;
 
-public class loginHandler extends ChannelInboundHandlerAdapter {
-    public static final loginHandler instance = new loginHandler();
+public class LoginHandler extends ChannelInboundHandlerAdapter {
+    public static final LoginHandler instance = new LoginHandler();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        if(null == msg){
+            super.channelRead(ctx,msg);
+            return;
+        }
         ByteBuf byteBuf = (ByteBuf) msg;
-        int len = byteBuf.readableBytes();
-        byte[] arr = new byte[len];
-        byteBuf.getBytes(0,arr);
-        System.out.println("clinet is:" + new String(arr,"UTF-8"));
-        super.channelRead(ctx, msg);
+        int login = byteBuf.readInt();
+        System.out.println("clinet is:" + login);
+        if(1 == login){
+            ChannelPipeline channelPipeline = ctx.pipeline();
+            channelPipeline.remove(this);
+        }else{
+            System.out.println("登陆失败");
+        }
+//        super.channelRead(ctx, msg);
     }
+
+
+
 }
