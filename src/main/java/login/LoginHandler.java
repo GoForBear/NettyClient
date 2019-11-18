@@ -20,6 +20,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
         if(1 == login){
             ChannelPipeline channelPipeline = ctx.pipeline();
             channelPipeline.remove(this);
+            System.out.println("登录成功");
         }else{
             System.out.println("登陆失败");
         }
